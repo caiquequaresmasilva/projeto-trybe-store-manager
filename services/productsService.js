@@ -23,6 +23,8 @@ const getById = async (id) => {
 };
 
 const update = async (id, { name, quantity }) => {
+  const product = await productsModel.getById(id);
+  if (!product) return { error: { code: 'notFound', message: 'Product not found' } };
   await productsModel.update(id, { name, quantity });
   return { id, name, quantity };
 };
