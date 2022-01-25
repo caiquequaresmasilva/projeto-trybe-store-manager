@@ -8,7 +8,7 @@ const create = async ({ name, quantity }) => {
 
 const getByName = async (name) => {
   const query = 'SELECT * FROM StoreManager.products WHERE name = ?';
-  const [[product]] = connection.execute(query, [name]);
+  const [[product]] = await connection.execute(query, [name]);
   return product;
 };
 

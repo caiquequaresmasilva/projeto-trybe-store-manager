@@ -5,8 +5,7 @@ const productsRoutes = require('./routes/productsRoutes');
 const handleErros = require('./middlewares/handleErrors');
 
 const app = express();
-app.use(bodyParser);
-app.use(handleErros);
+app.use(bodyParser.json());
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
@@ -14,6 +13,8 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', productsRoutes);
+
+app.use(handleErros);
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);

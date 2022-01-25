@@ -1,14 +1,21 @@
 // FONTE: Função baseada no que foi visto no Course
+const statusByErrorCode = {
+  notFound: 404,
+  alreadyExists: 409,
+  'string.min': 422,
+  'any.required': 400,
+  'number.min': 422,
+  'number.base': 422,
+};
+
 module.exports = (error, _req, res, _next) => {
-    if (error.isJoi) {
-      return res.status(400).json({ message: error.details[0].message });
-    }
-    const statusByErrorCode = {
-      notFound: 404,
-      alreadyExists: 409,
-    };
+  if (error.isJoi) {
+    console.log(error);
+    const status = statusByErrorCode[error.details[0].type];
+    return res.status(status).json({ message: error.details[0].message });
+  }
   
-    const status = statusByErrorCode[error.code] || 500;
+  const status = statusByErrorCode[error.code] || 500;
   
-    res.status(status).json({ error: { message: error.message } });
-  };
+  res.status(status).json({ message: error.message });
+};
