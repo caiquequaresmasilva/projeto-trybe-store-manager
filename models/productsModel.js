@@ -6,6 +6,13 @@ const create = async ({ name, quantity }) => {
   return { id };
 };
 
+const getByName = async (name) => {
+  const query = 'SELECT * FROM StoreManager.products WHERE name = ?';
+  const [[product]] = connection.execute(query, [name]);
+  return product;
+};
+
 module.exports = {
   create,
+  getByName,
 };
