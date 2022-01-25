@@ -1,5 +1,12 @@
 const productsService = require('../services/productsService');
 
+const validateProducts = (req, _res, next) => {
+  const { name, quantity } = req.body;
+  const validation = productsService.validateProducts({ name, quantity });
+  if (validation.error) next(validation.error);
+  next();
+};
+
 const create = async (req, res, next) => {
   const { name, quantity } = req.body;
   const product = await productsService.create({ name, quantity });
@@ -10,4 +17,5 @@ const create = async (req, res, next) => {
 };
 module.exports = {
   create,
+  validateProducts,
 };
