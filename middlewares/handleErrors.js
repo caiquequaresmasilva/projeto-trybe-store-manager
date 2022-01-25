@@ -10,7 +10,6 @@ const statusByErrorCode = {
 
 module.exports = (error, _req, res, _next) => {
   if (error.isJoi) {
-    console.log(error);
     const status = statusByErrorCode[error.details[0].type];
     return res.status(status).json({ message: error.details[0].message });
   }

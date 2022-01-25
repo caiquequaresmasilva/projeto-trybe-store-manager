@@ -6,7 +6,7 @@ const validateProducts = ({ name, quantity }) => {
   return validation;
 };
 
-const create = async ({ name, quantity }) => {
+const create = async ({ name, quantity }) => {  
   const product = await productsModel.getByName(name);
   if (product) return { error: { code: 'alreadyExists', message: 'Product already exists' } };
 
