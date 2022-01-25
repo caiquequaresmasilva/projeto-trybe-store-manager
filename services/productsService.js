@@ -16,8 +16,11 @@ const create = async ({ name, quantity }) => {
 
 const getAll = async () => productsModel.getAll();
 
+const getById = async (id) => productsModel.getById(id);
+
 module.exports = {
   create,
   validateProducts,
   getAll,
+  getById,
 };
