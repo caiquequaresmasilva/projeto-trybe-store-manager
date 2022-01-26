@@ -1,4 +1,5 @@
 const salesModel = require('../models/salesModel');
+const productsModel = require('../models/productsModel');
 const saleSchema = require('../schemas/saleSchema');
 
 const validateSale = (products) => {
@@ -19,6 +20,7 @@ const serialize = (sales) => sales.map((sale) => {
 });
 
 const create = async (products) => {
+  await productsModel.updateProductsQty(products, '-');
   const { id } = await salesModel.create(products);
   return { id, itemsSold: products };
 };
@@ -49,6 +51,7 @@ const del = async (id) => {
   const sale = await salesModel.getById(id);
   if (sale.length === 0) return { error: { code: 'notFound', message: 'Sale not found' } };
   await salesModel.del(id);
+  await productsModel.updateProductsQty(sale, '+');
   return sale;
 };
 
