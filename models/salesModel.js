@@ -14,6 +14,14 @@ const create = async (products) => {
   return { id };
 };
 
+const getAll = async () => {
+  const query = `SELECT sale_id, product_id, quantity, date 
+  FROM StoreManager.sales_products AS sp JOIN StoreManager.sales AS s 
+  ON sp.sale_id = s.id`;
+  const [sales] = await connection.execute(query);
+  return sales;
+};
+
 module.exports = {
   create,  
 };
