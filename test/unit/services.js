@@ -61,8 +61,7 @@ describe("Testes da camada Service", () => {
     });
     describe("O método 'getAll'", () => {
       before(async () => {
-        const getAll = productsList;
-        sinon.stub(productsModel, "getAll").resolves(getAll);
+        sinon.stub(productsModel, "getAll").resolves(productsList);
       });
 
       after(async () => {

@@ -44,7 +44,7 @@ const del = async (req, res, next) => {
 };
 
 module.exports = {
-  create,
+  create,   
   validateProducts,
   getAll,
   getById,
