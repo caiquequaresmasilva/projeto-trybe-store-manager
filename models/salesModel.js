@@ -12,7 +12,7 @@ const createSaleProducts = async (products) => {
 };
 
 const create = async (products) => {
-  const query = 'INSERT INTO StoreManager.sales (id) VALUES (DEFAULT)';
+  const query = 'INSERT INTO sales (id) VALUES (DEFAULT)';
   const [{ insertId: id }] = await connection.execute(query);
   await createSaleProducts(products.map(
     ({ product_id: prodId, quantity }) => [id, prodId, quantity],
@@ -22,7 +22,7 @@ const create = async (products) => {
 
 const getAll = async () => {
   const query = `SELECT sale_id, product_id, quantity, date 
-  FROM StoreManager.sales_products AS sp JOIN StoreManager.sales AS s 
+  FROM sales_products AS sp JOIN sales AS s 
   ON sp.sale_id = s.id`;
   const [sales] = await connection.execute(query);
   return sales;
@@ -30,14 +30,14 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const query = `SELECT product_id, quantity, date 
-  FROM StoreManager.sales_products AS sp JOIN StoreManager.sales AS s 
+  FROM sales_products AS sp JOIN sales AS s 
   ON sp.sale_id = s.id WHERE sale_id = ?`;
   const [sale] = await connection.execute(query, [id]);
   return sale;
 };
 
 const update = async (id, { productId, quantity }) => {
-  const query = `UPDATE StoreManager.sales_products 
+  const query = `UPDATE sales_products 
   SET quantity = ? WHERE sale_id = ? AND product_id = ?`;
   await connection.execute(query, [quantity, id, productId]);
 };
