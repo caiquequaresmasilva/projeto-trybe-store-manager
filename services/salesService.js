@@ -30,7 +30,7 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const sale = await salesModel.getById(id);
-  if (!sale) return { error: { code: 'notFound', message: 'Sale not found' } };
+  if (sale.length === 0) return { error: { code: 'notFound', message: 'Sale not found' } };
   return sale;
 };
 
@@ -38,4 +38,5 @@ module.exports = {
   create,
   validateSale,
   getAll,
+  getById,
 };

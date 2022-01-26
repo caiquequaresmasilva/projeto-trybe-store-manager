@@ -18,8 +18,16 @@ const getAll = async (_req, res) => {
   res.status(200).json(sales);
 };
 
+const getById = async (req, res, next) => {
+  const { id } = req.params;
+  const sale = await salesService.getById(id);
+  if (sale.error) return next(sale.error);
+  res.status(200).json(sale);
+};
+
 module.exports = {
   create,
   validateSale,
   getAll,
+  getById,
 };
