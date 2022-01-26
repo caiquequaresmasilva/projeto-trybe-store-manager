@@ -28,6 +28,12 @@ const getAll = async () => {
   return serialize(sales);
 };
 
+const getById = async (id) => {
+  const sale = await salesModel.getById(id);
+  if (!sale) return { error: { code: 'notFound', message: 'Sale not found' } };
+  return sale;
+};
+
 module.exports = {
   create,
   validateSale,
