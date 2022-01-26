@@ -23,6 +23,44 @@ const mockedProductsList = [
   },
 ];
 
+const mockedSale = {
+  id: 1,
+  itemsSold: [
+    {
+      product_id: 1,
+      quantity: 3,
+    },
+  ],
+};
+
+const mockedSalesList = [
+  {
+    saleId: 1,
+    date: "2021-09-09T04:54:29.000Z",
+    product_id: 1,
+    quantity: 2,
+  },
+  {
+    saleId: 1,
+    date: "2021-09-09T04:54:54.000Z",
+    product_id: 2,
+    quantity: 2,
+  },
+];
+
+const mockedSaleProducts = [
+  {
+    date: "2021-09-09T04:54:29.000Z",
+    product_id: 1,
+    quantity: 2,
+  },
+  {
+    date: "2021-09-09T04:54:54.000Z",
+    product_id: 2,
+    quantity: 2,
+  },
+];
+
 describe("Testes da camada Controller", () => {
   describe("Na entidade products", () => {
     describe("O método 'create'", () => {
@@ -90,6 +128,73 @@ describe("Testes da camada Controller", () => {
       it("Deve chamar json com o produto requisitado", async () => {
         await productsController.getById(req, res);
         expect(res.json.calledWith(mockedProduct)).to.be.equal(true);
+      });
+    });
+  });
+  describe("Na entidade sales", () => {
+    describe("O método 'create'", () => {
+      const req = {};
+      const res = {};
+      before(() => {
+        req.body = [{ product_id: 1, quantity: 3 }];
+
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns();
+        sinon.stub(salesService, "create").resolves(mockedSale);
+      });
+      after(() => {
+        salesService.create.restore();
+      });
+
+      it("Deve retornar status 201 quando uma venda for criada com sucesso", async () => {
+        await salesController.create(req, res);
+        expect(res.status.calledWith(201)).to.be.equal(true);
+      });
+      it("Deve chamar json com a venda criada", async () => {
+        await salesController.create(req, res);
+        expect(res.json.calledWith(mockedSale)).to.be.equal(true);
+      });
+    });
+    describe("O método 'getAll'", () => {
+      const req = {};
+      const res = {};
+      before(() => {
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns();
+        sinon.stub(salesService, "getAll").resolves(mockedSalesList);
+      });
+      after(() => {
+        salesService.getAll.restore();
+      });
+      it("Deve retornar status 200 quando a lista de vendas for retornada com sucesso", async () => {
+        await salesController.getAll(req, res);
+        expect(res.status.calledWith(200)).to.be.equal(true);
+      });
+      it("Deve chamar json com a lista de vendas", async () => {
+        await salesController.getAll(req, res);
+        expect(res.json.calledWith(mockedSalesList)).to.be.equal(true);
+      });
+    });
+    describe("O método 'getById'", () => {
+      const req = {};
+      const res = {};
+      before(() => {
+        req.params = { id: TEST_ID };
+
+        res.status = sinon.stub().returns(res);
+        res.json = sinon.stub().returns();
+        sinon.stub(salesService, "getById").resolves(mockedSaleProducts);
+      });
+      after(() => {
+        salesService.getById.restore();
+      });
+      it("Deve retornar status 200 quando a venda for retornada com sucesso", async () => {
+        await salesController.getById(req, res);
+        expect(res.status.calledWith(200)).to.be.equal(true);
+      });
+      it("Deve chamar json com o a venda requisitada", async () => {
+        await salesController.getById(req, res);
+        expect(res.json.calledWith(mockedSaleProducts)).to.be.equal(true);
       });
     });
   });
