@@ -100,9 +100,11 @@ describe("Testes da camada Service", () => {
       before(async () => {
         const create = { id: TEST_ID };
         sinon.stub(salesModel, "create").resolves(create);
+        sinon.stub(productsModel, "updateProductsQty").resolves(null);
       });
       after(async () => {
         salesModel.create.restore();
+        productsModel.updateProductsQty.restore();
       });
       it("Deve cadastrar uma nova venda e retornar um objeto", async () => {
         const response = await salesService.create(saleToCreate);
