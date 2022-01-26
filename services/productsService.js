@@ -19,7 +19,7 @@ const getAll = async () => productsModel.getAll();
 const getById = async (id) => {
   const product = await productsModel.getById(id);
   if (!product) return { error: { code: 'notFound', message: 'Product not found' } };
-  return product;
+  return product;   
 };
 
 const update = async (id, { name, quantity }) => {
