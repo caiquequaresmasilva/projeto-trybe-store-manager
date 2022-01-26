@@ -3,7 +3,7 @@ const sinon = require("sinon");
 const connection = require("../../models/connection");
 
 const productsModel = require("../../models/productsModel");
-const salesModel = require('../../models/salesModel');
+const salesModel = require("../../models/salesModel");
 
 const productPayload = {
   id: 1,
@@ -24,16 +24,32 @@ const productsList = [
     quantity: 20,
   },
 ];
-const sale =   [
+const sale = [
   {
-    "product_id": 1,
-    "quantity": 2
+    date: "2021-09-09T04:54:29.000Z",
+    product_id: 1,
+    quantity: 2,
   },
   {
-    "product_id": 2,
-    "quantity": 5
-  }
-]
+    date: "2021-09-09T04:54:54.000Z",
+    product_id: 2,
+    quantity: 2,
+  },
+];
+const salesList = [
+  {
+    saleId: 1,
+    date: "2021-09-09T04:54:29.000Z",
+    product_id: 1,
+    quantity: 2,
+  },
+  {
+    saleId: 1,
+    date: "2021-09-09T04:54:54.000Z",
+    product_id: 2,
+    quantity: 2,
+  },
+];
 
 describe("Testes da camada Model", () => {
   describe("Na entidade 'products'", () => {
@@ -118,7 +134,7 @@ describe("Testes da camada Model", () => {
     describe("O método 'create'", () => {
       before(async () => {
         const execute = [{ insertId: TEST_ID }];
-        const query = null
+        const query = null;
         sinon.stub(connection, "execute").resolves(execute);
         sinon.stub(connection, "query").resolves(query);
       });
@@ -134,6 +150,43 @@ describe("Testes da camada Model", () => {
       it("Deve retornar o id da nova venda inserido no objeto", async () => {
         const response = await salesModel.create(sale);
         expect(response).to.have.a.property("id");
+      });
+    });
+    describe("O método 'getAll'", () => {
+      before(async () => {
+        const execute = [salesList];
+        sinon.stub(connection, "execute").resolves(execute);
+      });
+
+      after(async () => {
+        connection.execute.restore();
+      });
+      it("Deve retornar um array de objetos", async () => {
+        const response = await salesModel.getAll();
+        response.forEach((obj) => expect(obj).to.be.an("object"));
+      });
+      it("Deve retornar uma lista de vendas", async () => {
+        const response = await salesModel.getAll();
+        expect(response).to.be.eql(salesList);
+      });
+    });
+    describe("O método 'getById'", () => {
+      before(async () => {
+        const execute = [sale];
+        sinon.stub(connection, "execute").resolves(execute);
+      });
+      after(async () => {
+        connection.execute.restore();
+      });
+
+      it("Deve retornar um array de objetos", async () => {
+        const response = await salesModel.getById(TEST_ID);
+        response.forEach((obj) => expect(obj).to.be.an("object"));
+      });
+
+      it("Deve retornar os produtos da venda especificada", async () => {
+        const response = await salesModel.getById(TEST_ID);
+        expect(response).to.be.eql(sale);
       });
     });
   });
