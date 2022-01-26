@@ -33,10 +33,18 @@ const update = async (req, res, next) => {
   res.status(200).json(newSale);
 };
 
+const del = async (req, res, next) => {
+  const { id } = req.params;
+  const sale = await salesService.del(id);
+  if (sale.error) return next(sale.error);
+  res.status(200).json(sale);
+};
+
 module.exports = {
   create,
   validateSale,
   getAll,
   getById,
   update,
+  del,
 };

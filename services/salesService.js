@@ -45,10 +45,18 @@ const update = async (id, newSale) => {
   };
 };
 
+const del = async (id) => {
+  const sale = await salesModel.getById(id);
+  if (sale.length === 0) return { error: { code: 'notFound', message: 'Sale not found' } };
+  await salesModel.del(id);
+  return sale;
+};
+
 module.exports = {
   create,
   validateSale,
   getAll,
   getById,
   update,
+  del,
 };

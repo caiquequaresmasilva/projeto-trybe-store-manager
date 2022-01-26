@@ -14,9 +14,9 @@ const createSaleProducts = async (products) => {
 const create = async (products) => {
   const query = 'INSERT INTO sales (id) VALUES (DEFAULT)';
   const [{ insertId: id }] = await connection.execute(query);
-  await createSaleProducts(products.map(
-    ({ product_id: prodId, quantity }) => [id, prodId, quantity],
-  ));
+  await createSaleProducts(
+    products.map(({ product_id: prodId, quantity }) => [id, prodId, quantity]),
+  );
   return { id };
 };
 
@@ -42,10 +42,16 @@ const update = async (id, { productId, quantity }) => {
   await connection.execute(query, [quantity, id, productId]);
 };
 
+const del = async (id) => {
+  const query = 'DELETE FROM sales WHERE id = ?';
+  await connection.execute(query, [id]);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
-  checkSale,  
-};  
+  checkSale,
+  del,
+};
