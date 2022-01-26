@@ -13,12 +13,23 @@ const validateSale = (products) => {
   return {};
 };
 
+const serialize = (sales) => sales.map((sale) => {
+  const { sale_id: saleId, ...rest } = sale;
+  return { saleId, ...rest };
+});
+
 const create = async (products) => {
   const { id } = await salesModel.create(products);
   return { id, itemsSold: products };
 };
 
+const getAll = async () => {
+  const sales = await salesModel.getAll();
+  return serialize(sales);
+};
+
 module.exports = {
   create,
   validateSale,
+  getAll,
 };

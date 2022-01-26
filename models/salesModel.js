@@ -23,5 +23,6 @@ const getAll = async () => {
 };
 
 module.exports = {
-  create,  
+  create,
+  getAll,  
 };
