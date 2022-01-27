@@ -6,6 +6,7 @@ const statusByErrorCode = {
   'any.required': 400,
   'number.min': 422,
   'number.base': 422,
+  amountError: 422,
 };
 
 module.exports = (error, _req, res, _next) => {

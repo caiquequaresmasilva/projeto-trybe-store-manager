@@ -14,12 +14,26 @@ const validateSale = (products) => {
   return {};
 };
 
+const validatePoductsQty = async (products) => {
+  const dbProducts = await Promise.all(products.map(
+    ({ product_id: id }) => productsModel.getById(id),
+  ));
+  for (let i = 0; i < products.length; i += 1) {
+    if (products[i].quantity > dbProducts[i].quantity) return false;
+  }
+  return true;
+};
+
 const serialize = (sales) => sales.map((sale) => {
   const { sale_id: saleId, ...rest } = sale;
   return { saleId, ...rest };
 });
 
 const create = async (products) => {
+  const valid = await validatePoductsQty(products);
+  if (!valid) { 
+    return { error: { code: 'amountError', message: 'Such amount is not permitted to sell' } }; 
+  } 
   await productsModel.updateProductsQty(products, '-');
   const { id } = await salesModel.create(products);
   return { id, itemsSold: products };
