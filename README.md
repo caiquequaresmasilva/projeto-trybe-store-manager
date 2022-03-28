@@ -2,12 +2,15 @@
 
 # Contexto
 
-O objetivo do projeto foi arquitetar e desenvolver uma API **REST** de gerenciamento de vendas que faça **CRUD (Create, Read, Update e Delete)** de vendas e produtos. A API segue a arquitetura **MSC (Models, Service e Controllers)**, e se comunica com um banco de dados  **MySQL** através de queries **SQL**.
+O objetivo do projeto foi arquitetar e desenvolver uma API **REST** de gerenciamento de vendas que faça **CRUD (Create, Read, Update e Delete)** de vendas e produtos. A API segue a arquitetura **MSC (Models, Service e Controllers)**, e se comunica com um banco de dados  **MySQL** através de queries **SQL**. O desenvolvimento foi validado através de testes unitários feitos em cada uma de suas camadas.
 
 ## Tecnologias usadas
 * Node.js;
 * Express.js;
 * MySQL;
+* Mocha;
+* Chai;
+* Sinon;
 
 ## Instalando Dependências
 
@@ -47,4 +50,14 @@ npm start
 
 A API pode ser acessada pelo endereço http://localhost:3000/, ou por outra porta configurada.
 
+---
+
+## Executando os testes
+---
+
+Para executar e ver a cobertura de testes, faça:
+
+```bash
+npm run test:mocha
+``` 
 ---
