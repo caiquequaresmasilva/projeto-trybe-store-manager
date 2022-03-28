@@ -25,6 +25,7 @@ npm install
 
 
 ## Executando a aplicação
+---
 
 Para rodar a API, é necessário configurar as variáveis de ambiente no arquivo `.env`
 
@@ -34,9 +35,15 @@ MYSQL_USER=user # Usuário de acesso ao banco de dados
 MYSQL_PASSWORD=userPassword # Senha do usuário
 PORT=3000 # Porta de comunicação da API
 ``` 
----
 
 * Em seguida, crie o banco de dados e suas tabelas no **MySQL** a partir do arquivo `StoreManager.sql`
+---
+
+* Para rodar a API, faça:
+
+```bash
+npm start
+``` 
 
 A API pode ser acessada pelo endereço http://localhost:3000/, ou por outra porta configurada.
 
